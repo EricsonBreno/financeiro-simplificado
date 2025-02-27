@@ -1,5 +1,8 @@
 package com.financeirosimplificado.repositories;
 
-public class TransactionRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.financeirosimplificado.domain.transaction.Transaction;
+
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
 }
