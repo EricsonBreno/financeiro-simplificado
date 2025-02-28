@@ -73,7 +73,11 @@ public class TransactionService {
 
         if (authorizationResponse.getStatusCode() == HttpStatus.OK) {
 
-            String message = (String) authorizationResponse.getBody().get("message").toString();
+            Map<String, Object> responseBody = authorizationResponse.getBody();
+            if (responseBody == null) {
+                return false;
+            }
+            String message = (String) responseBody.get("message").toString();
 
             return "Autorizado".equals(message);
 
