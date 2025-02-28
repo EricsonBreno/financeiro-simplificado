@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.function.ToDoubleBiFunction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,15 @@ public class TransactionService {
         newTransaction.setPayee(payee);
         newTransaction.setAmount(transaction.amount());
         newTransaction.setTimestamp(LocalDateTime.now());
+
+        payer.setBalance(payer.getBalance().subtract(transaction.amount()));
+        payee.setBalance(payee.getBalance().add(transaction.amount()));
+
+        this.transactionRepository.save(newTransaction);
+        this.userService.saveUser(payer);
+        this.userService.saveUser(payee);
+
+        // #TODO: Send notification to payee and payer 
 
     }
 
