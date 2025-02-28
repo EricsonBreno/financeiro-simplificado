@@ -2,6 +2,8 @@ package com.financeirosimplificado.domain.user;
 
 import java.math.BigDecimal;
 
+import com.financeirosimplificado.dto.UserDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -37,4 +39,15 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
     private boolean active;
+
+    public User(UserDTO userDTO ) {
+        this.firstName = userDTO.firstName();
+        this.lastName = userDTO.lastName();
+        this.document = userDTO.document();
+        this.email = userDTO.email();
+        this.password = userDTO.password();
+        this.balance = new BigDecimal(userDTO.balance());
+        this.role = userDTO.role();
+        this.active = true;
+    }
 }

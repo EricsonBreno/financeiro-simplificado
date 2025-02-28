@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.financeirosimplificado.domain.user.User;
 import com.financeirosimplificado.domain.user.UserRole;
+import com.financeirosimplificado.dto.UserDTO;
 import com.financeirosimplificado.repositories.UserRepository;
 
 @Service
@@ -14,6 +15,15 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public User createUser(UserDTO userDTO) {
+
+        User newUser = new User(userDTO);
+        this.saveUser(newUser);
+        
+        return newUser;
+
+    }
 
     public void validateTransaction(User payer, BigDecimal amount) throws Exception {
         if (payer.getRole().equals(UserRole.MERCHANT)) {
