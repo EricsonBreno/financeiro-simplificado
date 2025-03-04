@@ -63,8 +63,6 @@ public class TransactionService {
 
         return newTransaction;
 
-        // #TODO: Send notification to payee and payer 
-
     }
 
     public boolean authorizeTransaction(User payer, BigDecimal amount) {
@@ -74,12 +72,20 @@ public class TransactionService {
         if (authorizationResponse.getStatusCode() == HttpStatus.OK) {
 
             Map<String, Object> responseBody = authorizationResponse.getBody();
+
             if (responseBody == null) {
                 return false;
             }
-            String message = (String) responseBody.get("message").toString();
 
-            return "Autorizado".equals(message);
+            Map<String, Object> data = (Map<String, Object>) responseBody.get("data");
+
+            if (data == null) {
+                return false;
+            }
+
+            Boolean authorized = (Boolean) data.get("authorization");
+
+            return authorized;
 
         } else return false;
 
