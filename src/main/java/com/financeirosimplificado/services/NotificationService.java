@@ -15,7 +15,7 @@ public class NotificationService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public void sendNotification(User user, String message) throws Exception {
+    public void sendNotification(User user, String message) {
 
         String email = user.getEmail();
 
@@ -24,9 +24,8 @@ public class NotificationService {
         ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("https://util.devi.tools/api/v1/notify", notification, String.class);
 
         if (responseEntity.getStatusCode() != HttpStatus.OK ) {
-            throw new Exception("Error sending notification");
+            System.out.println("Error sending notification");
         }
-
 
     }
 
